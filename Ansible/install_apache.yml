@@ -1,0 +1,18 @@
+---
+- hosts: myhost
+  become: true
+  tasks:
+  
+  - name: update repository
+    apt:
+      update_cache: yes
+      
+      
+  - name: 
+    apt:
+      name: apache2
+      
+      
+   -name: add php support
+    apt:
+      name: libapache2-mod-php

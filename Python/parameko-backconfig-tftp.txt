@@ -1,0 +1,28 @@
+import paramiko
+import time
+import datetime
+
+TNOW = datetime.datetime.now().replace(microsecond=0)
+
+username = 'hocine'
+password = 'bbb'
+
+DEVICE_LIST = open('file.txt')
+for RTR in DEVICE_LIST:
+    RTR = RTR.strip()
+    print('\n #### Connecting to the device ' + RTR + '####\n')
+    SESSION = paramiko.SSHClient()
+    SESSION.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    SESSION.connect(RTR, port=22,
+                    username=username,
+                    password=password,
+                    look_for_keys=False,
+                    allow_agent=False)
+
+    DEVICE_ACCESS = SESSION.invoke_shell()
+    DEVICE_ACCESS.send(f'copy run tftp://{username}@192.168.126.1/IOUS_{RTR}\n\n\n')
+    time.sleep(5)
+    print('Backup completed for the device ' + RTR + '\n\n')
+
+    SESSION.close()
+

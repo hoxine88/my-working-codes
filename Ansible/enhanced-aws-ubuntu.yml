@@ -1,0 +1,21 @@
+---
+- hosts: myhost
+  become: true
+  tasks:
+
+  - name: update repository
+    apt:
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: update repository
+    yum:
+      update_cache: yes
+    when: ansible_distribution == "Amazon"
+
+  - name: install apache and php
+    apt:
+      name:
+        - apache2
+        - libapache2-mod-php
+    when: ansible_distribution == "Ubuntu"
